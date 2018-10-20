@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Icon } from "antd";
 
 export default class Camera extends Component {
   handleOnChange = e => {
@@ -9,14 +10,29 @@ export default class Camera extends Component {
     onChange({ file: files[0], name });
   };
   render() {
+    const { name } = this.props;
     return (
-      <input
-        type="file"
-        name="image"
-        accept="image/*"
-        capture
-        onChange={this.handleOnChange}
-      />
+      <React.Fragment>
+        <input
+          type="file"
+          id={name}
+          name="image"
+          accept="image/*"
+          capture
+          onChange={this.handleOnChange}
+          style={{
+            width: "0.1px",
+            height: "0.1px",
+            opacity: 0,
+            overflow: "hidden",
+            position: "absolute",
+            zIndex: "-1"
+          }}
+        />
+        <label htmlFor={name}>
+          <Icon type="camera" theme="twoTone" style={{ fontSize: "25px" }} />
+        </label>
+      </React.Fragment>
     );
   }
 }

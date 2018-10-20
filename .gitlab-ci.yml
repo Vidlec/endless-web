@@ -1,0 +1,22 @@
+# docker image ktery se pouzije pro build: https://hub.docker.com/_/node/
+image: node:latest
+
+stages:
+  - pages
+
+# nutny a povinny nazev tasku
+pages:
+  stage: pages
+  script:
+    # prikazy pro build aplikace
+    - npm install yarn
+    - yarn install
+    - yarn build
+    # vytvoreni adresare pro publikaci a zkopirovani vysledku
+    - mkdir -p public
+    - cp dist/* public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master

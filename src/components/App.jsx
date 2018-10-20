@@ -40,7 +40,6 @@ export default class App extends Component {
 
   renderChallenges = () => {
     const { challenges } = this.state;
-
     return Object.keys(challenges).map(key => {
       const { end, done } = challenges[key];
       return (
@@ -55,6 +54,16 @@ export default class App extends Component {
   };
 
   render() {
-    return <div>{this.state.challenges && this.renderChallenges()}</div>;
+    const { challenges } = this.state;
+    const isAllDone =
+      challenges &&
+      Object.values(challenges).every(challenge => challenge.done);
+
+    return (
+      <div>
+        {challenges && this.renderChallenges()}
+        {isAllDone && <button>Submit</button>}
+      </div>
+    );
   }
 }
