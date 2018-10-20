@@ -43,7 +43,7 @@ export default class StoryItem extends Component {
             </Col>
           </Row>
         </Layout>
-        <div style={{ position: "absolute", bottom: 0, left: "40%" }}>
+        <div style={{ position: "absolute", bottom: 20, left: "40%" }}>
           <Camera name="test" />
         </div>
       </React.Fragment>

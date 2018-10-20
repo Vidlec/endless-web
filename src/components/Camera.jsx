@@ -30,7 +30,7 @@ export default class Camera extends Component {
           }}
         />
         <label htmlFor={name}>
-          <Icon type="camera" theme="twoTone" style={{ fontSize: "72px" }} />
+          <Icon type="camera" theme="filled" style={{ fontSize: "72px" }} />
         </label>
       </React.Fragment>
     );

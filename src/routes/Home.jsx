@@ -9,7 +9,7 @@ import updateChallenge from "../utils/updateChallenge";
 
 const getChallenges = gameId => {
   return new Promise(resolve => {
-    setTimeout(() => resolve(["Židle", "Lampa"]), 400);
+    setTimeout(() => resolve(["Židle", "Lampa"]), 10);
   });
 };
 
