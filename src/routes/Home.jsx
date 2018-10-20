@@ -41,7 +41,12 @@ class Home extends Component {
           <img src={logo} style={{ height: "200px" }} />
         </Row>
         <Divider>Příběh</Divider>
-        <Row type="flex" justify="space-around" align="middle">
+        <Row
+          type="flex"
+          justify="space-around"
+          align="middle"
+          style={{ paddingBottom: "1.5rem" }}
+        >
           {!game ? (
             <Spin />
           ) : (
@@ -59,7 +64,7 @@ class Home extends Component {
             type="flex"
             justify="space-around"
             align="middle"
-            style={{ marginTop: "1rem", paddingBottom: "1rem" }}
+            style={{ paddingBottom: "1rem" }}
           >
             <Link to={`/results`}>
               <Button type="primary">Výsledky</Button>
