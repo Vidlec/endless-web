@@ -1,31 +1,22 @@
 import "babel-polyfill";
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getGame } from "../store/reducers/game/actions";
 
-import StoryItemsList from "../components/StoryItemsList";
+import StoryItemCards from "../components/StoryItemCards";
 
-import createChallenges from "../utils/createChallenges";
 import verifyImage from "../utils/verifyImage";
 import updateChallenge from "../utils/updateChallenge";
+import { Divider, Row, Spin } from "antd";
 
-const getChallenges = gameId => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(["Židle", "Lampa"]), 10);
-  });
-};
+import logo from "../assets/logo.png";
 
-export default class Home extends Component {
-  state = {
-    challenges: null
-  };
-
+class Home extends Component {
   componentDidMount() {
-    const { match } = this.props;
+    const { match, getGame, game } = this.props;
     const gameId = match.params.gameId;
-    console.log(gameId);
 
-    getChallenges(gameId).then(challenges => {
-      this.setState({ challenges: createChallenges(challenges) });
-    });
+    !game && getGame(gameId);
   }
 
   handleOnFileChange = async ({ file, name }) => {
@@ -41,17 +32,33 @@ export default class Home extends Component {
   };
 
   render() {
-    const { challenges, gameId } = this.state;
-    const isAllDone =
-      challenges &&
-      Object.values(challenges).every(challenge => challenge.done);
+    const { game } = this.props;
 
     return (
       <div>
-        <p>{gameId}</p>
-        {challenges && <StoryItemsList stories={challenges} />}
-        {isAllDone && <button>Submit</button>}
+        <Row type="flex" justify="space-around" align="middle">
+          <img src={logo} style={{ height: "200px" }} />
+        </Row>
+        <Divider>Příběh</Divider>
+        <Row type="flex" justify="space-around" align="middle">
+          {!game ? (
+            <Spin />
+          ) : (
+            <React.Fragment>
+              <h1>{game.title}</h1>
+              <p style={{ padding: "2rem", paddingTop: 0, paddingBottom: 0 }}>
+                {game.description}
+              </p>
+              <StoryItemCards stories={game.storyItems} />
+            </React.Fragment>
+          )}
+        </Row>
       </div>
     );
   }
 }
+
+export default connect(
+  ({ game }) => ({ game }),
+  { getGame }
+)(Home);

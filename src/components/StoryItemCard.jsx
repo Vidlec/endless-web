@@ -21,7 +21,7 @@ function CardHeader({ title, isComplete }) {
   );
 }
 
-export default class StoryItem extends Component {
+export default class StoryItemCard extends Component {
   render() {
     const { description, title, isComplete, _id } = this.props;
     return (
@@ -33,8 +33,9 @@ export default class StoryItem extends Component {
               description={description}
             />
           </Col>
+
           <Col span={4}>
-            <Link to={`/story-item/someId`}>
+            <Link to={`/story-item/${_id}`}>
               <Icon
                 type="right-circle"
                 theme="twoTone"

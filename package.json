@@ -13,6 +13,7 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "parcel-bundler": "^1.10.3",
     "react-router-dom": "^4.3.1"
@@ -23,9 +24,12 @@
     "babel-polyfill": "^6.26.0",
     "google-map-react": "^1.0.9",
     "query-string": "^6.2.0",
-    "react": "^16.5.2",
+    "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0-0",
     "react-dom": "^16.5.2",
-    "redux": "^4.0.1",
-    "redux-butterfly": "^0.6.0"
+    "react-redux": "^5.0.7",
+    "redux": "^2.0.0 || ^3.0.0 || ^4.0.0-0",
+    "redux-butterfly": "^0.6.0",
+    "redux-devtools-extension": "^2.13.5",
+    "reselect": "^4.0.0"
   }
 }
