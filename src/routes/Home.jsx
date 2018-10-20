@@ -7,7 +7,8 @@ import StoryItemCards from "../components/StoryItemCards";
 
 import verifyImage from "../utils/verifyImage";
 import updateChallenge from "../utils/updateChallenge";
-import { Divider, Row, Spin } from "antd";
+import { Divider, Row, Spin, Button } from "antd";
+import { Link } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 
@@ -21,7 +22,6 @@ class Home extends Component {
 
   handleOnFileChange = async ({ file, name }) => {
     const isCorrect = await verifyImage(file, name);
-    console.log(isCorrect);
 
     this.setState(({ challenges }) => ({
       challenges: Object.assign(
@@ -33,6 +33,7 @@ class Home extends Component {
 
   render() {
     const { game } = this.props;
+    const isAllDone = game && game.storyItems.every(item => item.isComplete);
 
     return (
       <div>
@@ -53,6 +54,18 @@ class Home extends Component {
             </React.Fragment>
           )}
         </Row>
+        {isAllDone && (
+          <Row
+            type="flex"
+            justify="space-around"
+            align="middle"
+            style={{ marginTop: "1rem", paddingBottom: "1rem" }}
+          >
+            <Link to={`/results`}>
+              <Button type="primary">Výsledky</Button>
+            </Link>
+          </Row>
+        )}
       </div>
     );
   }

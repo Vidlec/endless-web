@@ -41,7 +41,7 @@ class StoryItem extends Component {
       location.coordinates[0],
       location.coordinates[1]
     );
-    console.log("updating");
+
     this.setState({
       userCoordinates: position.coords,
       isNear: distance < 20,
@@ -82,7 +82,7 @@ class StoryItem extends Component {
         >
           <Row type="flex" justify="start" align="middle">
             <Col span={2}>
-              <Link to={`/${gameId}`}>
+              <Link to={`/home/${gameId}`}>
                 <Icon
                   type="left-circle"
                   theme="twoTone"
@@ -91,7 +91,7 @@ class StoryItem extends Component {
               </Link>
             </Col>
             <Col span={22}>
-              <Link to={`/${gameId}`}>
+              <Link to={`/home/${gameId}`}>
                 <h3
                   style={{
                     padding: 0,
@@ -117,7 +117,7 @@ class StoryItem extends Component {
                     alespoň jeden z předmětů:
                   </h4>
                   {labels.map(label => (
-                    <p>{label}</p>
+                    <p key={label}>{label}</p>
                   ))}
                   <h4>Na tomto místě</h4>
                 </React.Fragment>
