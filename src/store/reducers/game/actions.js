@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const SUCCESS = type => `${type}_SUCCESS`;
 export const ERROR = type => `${type}_ERROR`;
+export const START = type => `${type}_START`;
 
 export const GET_GAME = "GET_GAME";
 export const VERIFY_IMAGE = "VERIFY_IMAGE";

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Row, Col, Icon, Layout, Divider } from "antd";
+import { Row, Col, Icon, Layout, Divider, Spin } from "antd";
 import GoogleMap from "google-map-react";
 import { Link } from "react-router-dom";
 import { selectStoryItem } from "../store/reducers/game/selectors";
 import { verifyImage } from "../store/reducers/game/actions";
+import getCoordsDistance from "../utils/getCoordsDistance";
 
 import Camera from "../components/Camera";
 
@@ -21,14 +22,32 @@ class StoryItem extends Component {
   };
 
   componentDidMount() {
-    this.positionWatcher = navigator.geolocation.watchPosition(position => {
-      this.setState({ userCoordinates: position.coords });
-    });
+    this.positionWatcher = navigator.geolocation.watchPosition(
+      this.updateUserPostion
+    );
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.positionWatcher);
   }
+
+  updateUserPostion = position => {
+    const {
+      storyItem: { location }
+    } = this.props;
+    const distance = getCoordsDistance(
+      position.coords.latitude,
+      position.coords.longitude,
+      location.coordinates[0],
+      location.coordinates[1]
+    );
+    console.log("updating");
+    this.setState({
+      userCoordinates: position.coords,
+      isNear: distance < 20,
+      distance
+    });
+  };
 
   handleOnCameraCHange = ({ file }) => {
     const {
@@ -44,8 +63,15 @@ class StoryItem extends Component {
 
   render() {
     const { storyItem, gameId } = this.props;
-    const { description, title, isComplete, location, labels } = storyItem;
-    const { userCoordinates } = this.state;
+    const {
+      description,
+      title,
+      isComplete,
+      location,
+      labels,
+      isLoading
+    } = storyItem;
+    const { userCoordinates, isNear, distance } = this.state;
     return (
       <React.Fragment>
         <Layout style={{ padding: "1rem" }}>
@@ -137,9 +163,25 @@ class StoryItem extends Component {
             right: 0
           }}
         >
-          {!isComplete && (
-            <Camera name="test" onChange={this.handleOnCameraCHange} />
+          {!isComplete &&
+            isNear &&
+            !isLoading && (
+              <Camera name="test" onChange={this.handleOnCameraCHange} />
+            )}
+          {!isNear && (
+            <div>
+              <p style={{ marginBottom: 0 }}>Musíte být blíže</p>
+              <span style={{ marginRight: "5px" }}>Vaše vzdálenost je</span>
+              {distance ? (
+                <span style={{ fontWeight: "bold" }}>
+                  {Math.ceil(distance)} metrů
+                </span>
+              ) : (
+                <Spin />
+              )}
+            </div>
           )}
+          {isLoading && <Spin />}
         </Row>
       </React.Fragment>
     );

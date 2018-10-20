@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npx parcel ./src/index.html ",
     "build": "npx parcel build --public-url ./ ./src/index.html ",
+    "build-github": "npx parcel build --out-dir ./ --public-url ./ ./src/index.html ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,6 +23,7 @@
     "antd": "^3.10.1",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "google-distance": "^1.0.1",
     "google-map-react": "^1.0.9",
     "query-string": "^6.2.0",
     "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0-0",
