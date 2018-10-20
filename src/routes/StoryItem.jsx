@@ -74,7 +74,12 @@ class StoryItem extends Component {
     const { userCoordinates, isNear, distance } = this.state;
     return (
       <React.Fragment>
-        <Layout style={{ padding: "1rem" }}>
+        <Layout
+          style={{
+            padding: "24px",
+            backgroundColor: "#009adb"
+          }}
+        >
           <Row type="flex" justify="start" align="middle">
             <Col span={2}>
               <Link to={`/${gameId}`}>
@@ -86,16 +91,25 @@ class StoryItem extends Component {
               </Link>
             </Col>
             <Col span={22}>
-              <h3 style={{ padding: 0, margin: 0, marginLeft: "1rem" }}>
-                {title}
-              </h3>
+              <Link to={`/${gameId}`}>
+                <h3
+                  style={{
+                    padding: 0,
+                    margin: 0,
+                    marginLeft: "0.5rem",
+                    color: "white"
+                  }}
+                >
+                  Zpět
+                </h3>
+              </Link>
             </Col>
           </Row>
         </Layout>
         <Layout style={{ padding: "1rem" }}>
           <Row>
             <Col style={{ textAlign: "center" }}>
-              <Divider />
+              <Divider>{title}</Divider>
               {!isComplete ? (
                 <React.Fragment>
                   <h4>
