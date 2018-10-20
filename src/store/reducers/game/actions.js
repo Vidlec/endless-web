@@ -1,18 +1,34 @@
 import game from "../../../mocks/games";
+import axios from "axios";
 
 export const SUCCESS = type => `${type}_SUCCESS`;
-export const FAILURE = type => `${type}_FAILURE`;
+export const ERROR = type => `${type}_ERROR`;
 
 export const GET_GAME = "GET_GAME";
-export const UPDATE_STORY_ITEM = "UPDATE_STORY_ITEM";
+export const VERIFY_IMAGE = "VERIFY_IMAGE";
 
-export const getGame = gameId => ({
+export const getGame = gameId => () => ({
   type: GET_GAME,
-  game: game[gameId]
+  payload: axios.get(
+    `https://obfcyeob50.execute-api.eu-west-1.amazonaws.com/dev/game/${gameId}`,
+    {
+      headers: {
+        Authorization: "someUser"
+      }
+    }
+  )
 });
 
-export const updateStoryItem = (storyItemId, props) => ({
-  type: UPDATE_STORY_ITEM,
-  storyItemId,
-  props
+export const verifyImage = (storyItemId, imageBlob) => () => ({
+  type: VERIFY_IMAGE,
+  payload: axios.post(
+    `https://obfcyeob50.execute-api.eu-west-1.amazonaws.com/dev/story-item/${storyItemId}/rekognize`,
+    imageBlob,
+    {
+      headers: {
+        Authorization: "someUser"
+      }
+    }
+  ),
+  storyItemId
 });

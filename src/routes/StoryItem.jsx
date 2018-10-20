@@ -1,16 +1,51 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Row, Col, Icon, Layout, Divider } from "antd";
+import GoogleMap from "google-map-react";
 import { Link } from "react-router-dom";
 import { selectStoryItem } from "../store/reducers/game/selectors";
-import { updateStoryItem } from "../store/reducers/game/actions";
+import { verifyImage } from "../store/reducers/game/actions";
 
 import Camera from "../components/Camera";
 
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
 class StoryItem extends Component {
+  state = {
+    image: null,
+    userCoordinates: null
+  };
+
+  componentDidMount() {
+    this.positionWatcher = navigator.geolocation.watchPosition(position => {
+      this.setState({ userCoordinates: position.coords });
+    });
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.positionWatcher);
+  }
+
+  handleOnCameraCHange = ({ file }) => {
+    const {
+      verifyImage,
+      storyItem: { _id }
+    } = this.props;
+
+    getBase64(file, url => {
+      verifyImage(_id, url);
+      this.setState({ image: url });
+    });
+  };
+
   render() {
-    const { storyItem, gameId, updateStoryItem } = this.props;
-    const { description, title, _id, isComplete } = storyItem;
+    const { storyItem, gameId } = this.props;
+    const { description, title, isComplete, location, labels } = storyItem;
+    const { userCoordinates } = this.state;
     return (
       <React.Fragment>
         <Layout style={{ padding: "1rem" }}>
@@ -33,23 +68,62 @@ class StoryItem extends Component {
         </Layout>
         <Layout style={{ padding: "1rem" }}>
           <Row>
-            <Col>
-              <p>{description}</p>
-            </Col>
             <Col style={{ textAlign: "center" }}>
               <Divider />
               {!isComplete ? (
                 <React.Fragment>
-                  <h4>Take a picture of the church to unlock this story</h4>
-                  <Icon
-                    type="lock"
-                    theme="filled"
-                    style={{ fontSize: "45px" }}
-                  />
+                  <h4>
+                    Pro odemknutí kapitoly, pořiďte fotku, která obsahuje
+                    alespoň jeden z předmětů:
+                  </h4>
+                  {labels.map(label => (
+                    <p>{label}</p>
+                  ))}
+                  <h4>Na tomto místě</h4>
                 </React.Fragment>
               ) : (
-                <p>Unlocked content</p>
+                <React.Fragment>
+                  <p>{description}</p>
+                  {this.state.image && (
+                    <img src={this.state.image} style={{ maxWidth: "300px" }} />
+                  )}
+                </React.Fragment>
               )}
+              <div
+                style={{
+                  height: "300px",
+                  width: "100%",
+                  marginTop: "1rem"
+                }}
+              >
+                <GoogleMap
+                  bootstrapURLKeys={{
+                    key: "AIzaSyBdZobDPrJxTyRaIPdmUwUxmK6Gi6-ZZ_Y"
+                  }}
+                  defaultCenter={{
+                    lat: location.coordinates[0],
+                    lng: location.coordinates[1]
+                  }}
+                  defaultZoom={15}
+                >
+                  <Icon
+                    lat={location.coordinates[0]}
+                    lng={location.coordinates[1]}
+                    style={{ color: "#e55039", fontSize: "34px" }}
+                    type="environment"
+                    theme="filled"
+                  />
+                  {userCoordinates && (
+                    <Icon
+                      lat={userCoordinates.latitude}
+                      lng={userCoordinates.longitude}
+                      style={{ color: "#e55039", fontSize: "34px" }}
+                      type="smile"
+                      theme="filled"
+                    />
+                  )}
+                </GoogleMap>
+              </div>
             </Col>
           </Row>
         </Layout>
@@ -64,10 +138,7 @@ class StoryItem extends Component {
           }}
         >
           {!isComplete && (
-            <Camera
-              name="test"
-              onChange={() => updateStoryItem(_id, { isComplete: true })}
-            />
+            <Camera name="test" onChange={this.handleOnCameraCHange} />
           )}
         </Row>
       </React.Fragment>
@@ -80,5 +151,5 @@ export default connect(
     storyItem: selectStoryItem(props.match.params.storyItemId)(state),
     gameId: state.game.gameId
   }),
-  { updateStoryItem }
+  { verifyImage }
 )(StoryItem);

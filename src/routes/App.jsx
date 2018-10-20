@@ -7,7 +7,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Router>
+        <Router basename={process.env.PUBLIC_URL}>
           <Switch>
             <Route exact path="/:gameId" component={Home} />
             <Route path="/story-item/:storyItemId" component={StoryItem} />

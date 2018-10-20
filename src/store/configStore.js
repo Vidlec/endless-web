@@ -7,4 +7,7 @@ const reducer = combineReducers({
   game
 });
 
-export default createStore(reducer, composeWithDevTools());
+export default createStore(
+  reducer,
+  composeWithDevTools(applyMiddleware(butterfly({ enhancers: {}, enums: {} })))
+);

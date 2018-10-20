@@ -4,6 +4,9 @@ image: node:latest
 stages:
   - pages
 
+variables:
+  PUBLIC_URL: "/endless-web" # slash is important
+
 # nutny a povinny nazev tasku
 pages:
   stage: pages

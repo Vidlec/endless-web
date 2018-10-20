@@ -23,14 +23,14 @@ function CardHeader({ title, isComplete }) {
 
 export default class StoryItemCard extends Component {
   render() {
-    const { description, title, isComplete, _id } = this.props;
+    const { subtitle, title, isComplete, _id } = this.props;
     return (
       <Card style={{ width: 300, marginTop: 16 }}>
         <Row gutter={4} type="flex" justify="space-around" align="middle">
           <Col span={20}>
             <Card.Meta
               title={<CardHeader title={title} isComplete={isComplete} />}
-              description={description}
+              description={subtitle}
             />
           </Col>
 
