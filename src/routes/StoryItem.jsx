@@ -133,7 +133,8 @@ class StoryItem extends Component {
                 style={{
                   height: "300px",
                   width: "100%",
-                  marginTop: "1rem"
+                  marginTop: "1rem",
+                  paddingBottom: "2.5rem"
                 }}
               >
                 <GoogleMap
