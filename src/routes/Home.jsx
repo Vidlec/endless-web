@@ -1,8 +1,7 @@
 import "babel-polyfill";
-import axios from "axios";
 import React, { Component } from "react";
-import Camera from "./Camera";
-import qs from "query-string";
+
+import StoryItemsList from "../components/StoryItemsList";
 
 import createChallenges from "../utils/createChallenges";
 import verifyImage from "../utils/verifyImage";
@@ -14,13 +13,15 @@ const getChallenges = gameId => {
   });
 };
 
-export default class App extends Component {
+export default class Home extends Component {
   state = {
-    gameId: qs.parse(location.search).id
+    challenges: null
   };
 
   componentDidMount() {
-    const { gameId } = this.state;
+    const { match } = this.props;
+    const gameId = match.params.gameId;
+    console.log(gameId);
 
     getChallenges(gameId).then(challenges => {
       this.setState({ challenges: createChallenges(challenges) });
@@ -29,6 +30,7 @@ export default class App extends Component {
 
   handleOnFileChange = async ({ file, name }) => {
     const isCorrect = await verifyImage(file, name);
+    console.log(isCorrect);
 
     this.setState(({ challenges }) => ({
       challenges: Object.assign(
@@ -38,30 +40,16 @@ export default class App extends Component {
     }));
   };
 
-  renderChallenges = () => {
-    const { challenges } = this.state;
-    return Object.keys(challenges).map(key => {
-      const { end, done } = challenges[key];
-      return (
-        <div key={key}>
-          <span>{key}</span>
-          <Camera name={key} onChange={this.handleOnFileChange} />
-          {done && <span>DONE!</span>}
-          {end && <span>{`Took: ${Math.floor(end)} ms`}</span>}
-        </div>
-      );
-    });
-  };
-
   render() {
-    const { challenges } = this.state;
+    const { challenges, gameId } = this.state;
     const isAllDone =
       challenges &&
       Object.values(challenges).every(challenge => challenge.done);
 
     return (
       <div>
-        {challenges && this.renderChallenges()}
+        <p>{gameId}</p>
+        {challenges && <StoryItemsList stories={challenges} />}
         {isAllDone && <button>Submit</button>}
       </div>
     );
