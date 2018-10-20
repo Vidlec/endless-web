@@ -1,4 +1,3 @@
-import game from "../../../mocks/games";
 import axios from "axios";
 
 export const SUCCESS = type => `${type}_SUCCESS`;
