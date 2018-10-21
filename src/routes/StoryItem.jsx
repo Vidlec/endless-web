@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Row, Col, Icon, Layout, Divider, Spin } from "antd";
+import { Row, Col, Icon, Layout, Divider, Spin, Button } from "antd";
 import GoogleMap from "google-map-react";
 import { selectStoryItem } from "../store/reducers/game/selectors";
 import { verifyImage, setUserImage } from "../store/reducers/game/actions";
 import getCoordsDistance from "../utils/getCoordsDistance";
+import { Link } from "react-router-dom";
 
 import Camera from "../components/Camera";
 
@@ -63,7 +64,7 @@ class StoryItem extends Component {
   };
 
   render() {
-    const { storyItem, history } = this.props;
+    const { storyItem, history, storyItems } = this.props;
     const {
       description,
       title,
@@ -75,6 +76,7 @@ class StoryItem extends Component {
       subtitle
     } = storyItem;
     const { userCoordinates, isNear, distance } = this.state;
+    const isAllDone = storyItems && storyItems.every(item => item.isComplete);
     return (
       <React.Fragment>
         <Layout
@@ -108,6 +110,31 @@ class StoryItem extends Component {
           </Row>
         </Layout>
         {isComplete && image && <img style={{ width: "100%" }} src={image} />}
+        {isAllDone && (
+          <Row
+            type="flex"
+            justify="space-around"
+            align="middle"
+            style={{ paddingBottom: "1rem" }}
+          >
+            <Divider>Vše je splněno!</Divider>
+            <Link to={`/results`}>
+              <Button
+                type="primary"
+                size="large"
+                style={{
+                  backgroundColor: "#78e08f",
+                  borderColor: "#78e08f",
+                  fontSize: "20px",
+                  height: "50px",
+                  width: "250px"
+                }}
+              >
+                Vytvořit tvůj příběh
+              </Button>
+            </Link>
+          </Row>
+        )}
         <Layout style={{ padding: "1rem" }}>
           <Row>
             <Col style={{ textAlign: "center" }}>
@@ -190,7 +217,8 @@ class StoryItem extends Component {
 export default connect(
   (state, props) => ({
     storyItem: selectStoryItem(props.match.params.storyItemId)(state),
-    gameId: state.game.gameId
+    gameId: state.game.gameId,
+    storyItems: state.game.storyItems
   }),
   { verifyImage, setUserImage }
 )(StoryItem);

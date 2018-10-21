@@ -9,6 +9,7 @@ class Results extends Component {
   state = {
     shouldDisplayResults: false
   };
+
   componentDidMount() {
     const { getResults, results, userId } = this.props;
     const shouldFetchResults = !results ? true : userId !== results[0].user;
@@ -20,6 +21,7 @@ class Results extends Component {
       : this.setState({ shouldDisplayResults: true });
     shouldFetchResults && getResults();
   }
+
   render() {
     const { results } = this.props;
     const { shouldDisplayResults } = this.state;

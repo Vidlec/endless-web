@@ -25,6 +25,7 @@
     "babel-polyfill": "^6.26.0",
     "google-distance": "^1.0.1",
     "google-map-react": "^1.0.9",
+    "pica": "^4.1.1",
     "query-string": "^6.2.0",
     "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0-0",
     "react-dom": "^16.5.2",
