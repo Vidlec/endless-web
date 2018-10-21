@@ -15,10 +15,13 @@ import logo from "../assets/logo.png";
 
 class Home extends Component {
   componentDidMount() {
-    const { match, getGame, game } = this.props;
+    const { match, getGame, game, setUserId } = this.props;
     const gameId = match.params.gameId;
 
-    if (!game || game.gameId !== gameId) getGame(gameId);
+    if (!game || game.gameId !== gameId) {
+      getGame(gameId);
+      setUserId();
+    }
   }
 
   handleOnFileChange = async ({ file, name }) => {
