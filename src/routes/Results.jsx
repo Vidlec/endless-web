@@ -11,7 +11,7 @@ class Results extends Component {
   };
   componentDidMount() {
     const { getResults, results, userId } = this.props;
-    const shouldFetchResults = userId !== results[0].user;
+    const shouldFetchResults = !results ? true : userId !== results[0].user;
     shouldFetchResults
       ? (this.timeout = setTimeout(
           () => this.setState({ shouldDisplayResults: true }),
