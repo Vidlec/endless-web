@@ -2,6 +2,7 @@ import "babel-polyfill";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getGame, setUserId } from "../store/reducers/game/actions";
+import { resetResults } from "../store/reducers/results/actions";
 
 import StoryItemCards from "../components/StoryItemCards";
 
@@ -32,7 +33,14 @@ class Home extends Component {
   };
 
   render() {
-    const { game, match, getGame, setUserId, results } = this.props;
+    const {
+      game,
+      match,
+      getGame,
+      setUserId,
+      results,
+      resetResults
+    } = this.props;
     const isAllDone = game && game.storyItems.every(item => item.isComplete);
 
     return (
@@ -95,6 +103,7 @@ class Home extends Component {
             icon="interation"
             onClick={() => {
               setUserId();
+              resetResults();
               getGame(match.params.gameId);
             }}
             type="danger"
@@ -109,5 +118,5 @@ class Home extends Component {
 
 export default connect(
   ({ game, results }) => ({ game, results }),
-  { getGame, setUserId }
+  { getGame, setUserId, resetResults }
 )(Home);

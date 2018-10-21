@@ -1,4 +1,5 @@
 export const GET_RESULTS = "GET_RESULTS";
+export const RESET_RESULTS = "RESET_RESULTS";
 
 export const getResults = () => ({ fetchJson, getState }) => {
   const {
@@ -12,3 +13,7 @@ export const getResults = () => ({ fetchJson, getState }) => {
     )
   };
 };
+
+export const resetResults = () => ({
+  type: RESET_RESULTS
+});
