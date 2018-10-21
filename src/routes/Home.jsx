@@ -55,25 +55,36 @@ class Home extends Component {
                 <h1>{game.title}</h1>
                 <p>{game.description}</p>
               </div>
+              {isAllDone && (
+                <Row
+                  type="flex"
+                  justify="space-around"
+                  align="middle"
+                  style={{ paddingBottom: "1rem" }}
+                >
+                  <Divider />
+                  <Link to={`/results`}>
+                    <Button
+                      type="primary"
+                      size="large"
+                      style={{
+                        backgroundColor: "#78e08f",
+                        borderColor: "#78e08f",
+                        fontSize: "20px",
+                        height: "50px",
+                        width: "250px"
+                      }}
+                    >
+                      Vytvořit tvůj příběh
+                    </Button>
+                  </Link>
+                </Row>
+              )}
               <Divider>Kapitoly</Divider>
               <StoryItemCards stories={game.storyItems} />
             </React.Fragment>
           )}
         </Row>
-        {isAllDone && (
-          <Row
-            type="flex"
-            justify="space-around"
-            align="middle"
-            style={{ paddingBottom: "1rem" }}
-          >
-            <Link to={`/results`}>
-              <Button icon="book" type="primary" size="large" block>
-                Tvůj příběh
-              </Button>
-            </Link>
-          </Row>
-        )}
         <Row
           type="flex"
           justify="space-around"

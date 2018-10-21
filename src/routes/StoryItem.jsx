@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Row, Col, Icon, Layout, Divider, Spin } from "antd";
 import GoogleMap from "google-map-react";
-import { Link } from "react-router-dom";
 import { selectStoryItem } from "../store/reducers/game/selectors";
 import { verifyImage, setUserImage } from "../store/reducers/game/actions";
 import getCoordsDistance from "../utils/getCoordsDistance";
@@ -64,7 +63,7 @@ class StoryItem extends Component {
   };
 
   render() {
-    const { storyItem, gameId } = this.props;
+    const { storyItem, history } = this.props;
     const {
       description,
       title,
@@ -86,27 +85,25 @@ class StoryItem extends Component {
         >
           <Row type="flex" justify="start" align="middle">
             <Col span={2}>
-              <Link to={`/home/${gameId}`}>
-                <Icon
-                  type="left-circle"
-                  theme="twoTone"
-                  style={{ fontSize: "1.5rem" }}
-                />
-              </Link>
+              <Icon
+                onClick={() => history.goBack()}
+                type="left-circle"
+                theme="twoTone"
+                style={{ fontSize: "1.5rem" }}
+              />
             </Col>
             <Col span={22}>
-              <Link to={`/home/${gameId}`}>
-                <h3
-                  style={{
-                    padding: 0,
-                    margin: 0,
-                    marginLeft: "0.5rem",
-                    color: "white"
-                  }}
-                >
-                  Zpět
-                </h3>
-              </Link>
+              <h3
+                onClick={() => history.goBack()}
+                style={{
+                  padding: 0,
+                  margin: 0,
+                  marginLeft: "0.5rem",
+                  color: "white"
+                }}
+              >
+                Zpět
+              </h3>
             </Col>
           </Row>
         </Layout>
