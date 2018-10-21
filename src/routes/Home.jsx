@@ -1,7 +1,7 @@
 import "babel-polyfill";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getGame } from "../store/reducers/game/actions";
+import { getGame, setUserId } from "../store/reducers/game/actions";
 
 import StoryItemCards from "../components/StoryItemCards";
 
@@ -32,7 +32,7 @@ class Home extends Component {
   };
 
   render() {
-    const { game } = this.props;
+    const { game, match, getGame, setUserId } = this.props;
     const isAllDone = game && game.storyItems.every(item => item.isComplete);
 
     return (
@@ -55,6 +55,7 @@ class Home extends Component {
               <p style={{ padding: "2rem", paddingTop: 0, paddingBottom: 0 }}>
                 {game.description}
               </p>
+              <Divider>Kapitoly</Divider>
               <StoryItemCards stories={game.storyItems} />
             </React.Fragment>
           )}
@@ -66,8 +67,20 @@ class Home extends Component {
             align="middle"
             style={{ paddingBottom: "1rem" }}
           >
+            <Button
+              icon="interation"
+              onClick={() => {
+                setUserId();
+                getGame(match.params.gameId);
+              }}
+              type="danger"
+            >
+              Restart hry
+            </Button>
             <Link to={`/results`}>
-              <Button type="primary">Výsledky</Button>
+              <Button icon="trophy" type="primary">
+                Výsledky
+              </Button>
             </Link>
           </Row>
         )}
@@ -78,5 +91,5 @@ class Home extends Component {
 
 export default connect(
   ({ game }) => ({ game }),
-  { getGame }
+  { getGame, setUserId }
 )(Home);

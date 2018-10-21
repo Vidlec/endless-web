@@ -1,7 +1,21 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getResults } from "../store/reducers/results/actions";
 
-export default class Results extends Component {
+class Results extends Component {
+  componentDidMount() {
+    const { getResults } = this.props;
+    getResults();
+  }
   render() {
-    return <div>Lul</div>;
+    const { results } = this.props;
+    return (
+      <div>{results && results.map(result => <img src={result.image} />)}</div>
+    );
   }
 }
+
+export default connect(
+  ({ results }) => ({ results }),
+  { getResults }
+)(Results);

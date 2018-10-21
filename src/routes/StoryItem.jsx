@@ -23,7 +23,9 @@ class StoryItem extends Component {
 
   componentDidMount() {
     this.positionWatcher = navigator.geolocation.watchPosition(
-      this.updateUserPostion
+      this.updateUserPostion,
+      () => null,
+      { enableHighAccuracy: true }
     );
   }
 
@@ -44,7 +46,7 @@ class StoryItem extends Component {
 
     this.setState({
       userCoordinates: position.coords,
-      isNear: distance < 20,
+      isNear: distance < 30,
       distance
     });
   };
@@ -124,6 +126,8 @@ class StoryItem extends Component {
               ) : (
                 <React.Fragment>
                   <p>{description}</p>
+                  <h4>Váš obrázek</h4>
+                  // TODO: Add to the store
                   {this.state.image && (
                     <img src={this.state.image} style={{ maxWidth: "300px" }} />
                   )}
@@ -183,19 +187,20 @@ class StoryItem extends Component {
             !isLoading && (
               <Camera name="test" onChange={this.handleOnCameraCHange} />
             )}
-          {!isNear && (
-            <div>
-              <p style={{ marginBottom: 0 }}>Musíte být blíže</p>
-              <span style={{ marginRight: "5px" }}>Vaše vzdálenost je</span>
-              {distance ? (
-                <span style={{ fontWeight: "bold" }}>
-                  {Math.ceil(distance)} metrů
-                </span>
-              ) : (
-                <Spin />
-              )}
-            </div>
-          )}
+          {!isNear &&
+            !isComplete && (
+              <div>
+                <p style={{ marginBottom: 0 }}>Musíte být blíže</p>
+                <span style={{ marginRight: "5px" }}>Vaše vzdálenost je</span>
+                {distance ? (
+                  <span style={{ fontWeight: "bold" }}>
+                    {Math.ceil(distance)} metrů
+                  </span>
+                ) : (
+                  <Spin />
+                )}
+              </div>
+            )}
           {isLoading && <Spin />}
         </Row>
       </React.Fragment>
