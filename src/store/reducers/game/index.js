@@ -1,5 +1,5 @@
 import * as actions from "./actions";
-import { notification } from "antd";
+import { message } from "antd";
 const { SUCCESS, ERROR, START } = actions;
 
 function updateStoryItem(id, props, state) {
@@ -21,6 +21,7 @@ export default function game(state = null, action) {
       return action.payload.data;
 
     case SUCCESS(actions.VERIFY_IMAGE): {
+      message.success("Váš příběh byl propojen");
       return updateStoryItem(
         action.storyItemId,
         { isComplete: true, isLoading: false },
@@ -40,10 +41,7 @@ export default function game(state = null, action) {
       return updateStoryItem(action.storyItemId, { isLoading: true }, state);
     }
     case ERROR(actions.VERIFY_IMAGE): {
-      notification["error"]({
-        message: "Obrázek neobsahuje požadované předměty",
-        description: "Zkuste to ještě jednou"
-      });
+      message.error("Obrázek neobsahuje požadované předměty");
       return updateStoryItem(action.storyItemId, { isLoading: false }, state);
     }
 

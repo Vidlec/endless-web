@@ -45,7 +45,7 @@ class StoryItem extends Component {
 
     this.setState({
       userCoordinates: position.coords,
-      isNear: distance <= 100,
+      isNear: distance <= 150,
       distance
     });
   };
@@ -120,9 +120,8 @@ class StoryItem extends Component {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
+                  {image && <img src={image} />}
                   <p>{description}</p>
-                  <h4>Váš obrázek</h4>
-                  {image && <img src={image} style={{ maxWidth: "300px" }} />}
                 </React.Fragment>
               )}
               <div
