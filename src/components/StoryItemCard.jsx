@@ -17,14 +17,9 @@ export default class StoryItemCard extends Component {
     const { subtitle, title, isComplete, _id } = this.props;
     return (
       <Link to={`/story-item/${_id}`}>
-        <Card hoverable style={{ width: 300, marginTop: 16 }}>
+        <Card hoverable style={{ width: 300, marginTop: 16 }} title={title}>
           <Row gutter={4} type="flex" justify="space-around" align="middle">
-            <Col span={20}>
-              <Card.Meta
-                title={<CardHeader title={title} isComplete={isComplete} />}
-                description={subtitle}
-              />
-            </Col>
+            <Col span={20}>{subtitle}</Col>
 
             <Col span={4}>
               <Icon
