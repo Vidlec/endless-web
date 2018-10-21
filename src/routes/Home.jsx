@@ -68,13 +68,7 @@ class Home extends Component {
             style={{ paddingBottom: "1rem" }}
           >
             <Link to={`/results`}>
-              <Button
-                icon="book"
-                type="primary"
-                shape="circle"
-                size="large"
-                block
-              >
+              <Button icon="book" type="primary" size="large" block>
                 Tvůj příběh
               </Button>
             </Link>

@@ -110,6 +110,7 @@ class StoryItem extends Component {
             </Col>
           </Row>
         </Layout>
+        {isComplete && image && <img style={{ width: "100%" }} src={image} />}
         <Layout style={{ padding: "1rem" }}>
           <Row>
             <Col style={{ textAlign: "center" }}>
@@ -120,7 +121,6 @@ class StoryItem extends Component {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  {image && <img src={image} />}
                   <p>{description}</p>
                 </React.Fragment>
               )}
