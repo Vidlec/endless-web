@@ -51,10 +51,10 @@ class Home extends Component {
             <Spin />
           ) : (
             <React.Fragment>
-              <h1>{game.title}</h1>
-              <p style={{ padding: "2rem", paddingTop: 0, paddingBottom: 0 }}>
-                {game.description}
-              </p>
+              <div style={{ padding: "2rem", paddingTop: 0, paddingBottom: 0 }}>
+                <h1>{game.title}</h1>
+                <p>{game.description}</p>
+              </div>
               <Divider>Kapitoly</Divider>
               <StoryItemCards stories={game.storyItems} />
             </React.Fragment>
@@ -67,16 +67,6 @@ class Home extends Component {
             align="middle"
             style={{ paddingBottom: "1rem" }}
           >
-            <Button
-              icon="interation"
-              onClick={() => {
-                setUserId();
-                getGame(match.params.gameId);
-              }}
-              type="danger"
-            >
-              Restart hry
-            </Button>
             <Link to={`/results`}>
               <Button
                 icon="book"
@@ -90,6 +80,23 @@ class Home extends Component {
             </Link>
           </Row>
         )}
+        <Row
+          type="flex"
+          justify="space-around"
+          align="middle"
+          style={{ paddingBottom: "1rem" }}
+        >
+          <Button
+            icon="interation"
+            onClick={() => {
+              setUserId();
+              getGame(match.params.gameId);
+            }}
+            type="danger"
+          >
+            Restart hry
+          </Button>
+        </Row>
       </div>
     );
   }
