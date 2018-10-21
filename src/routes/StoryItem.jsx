@@ -4,7 +4,7 @@ import { Row, Col, Icon, Layout, Divider, Spin } from "antd";
 import GoogleMap from "google-map-react";
 import { Link } from "react-router-dom";
 import { selectStoryItem } from "../store/reducers/game/selectors";
-import { verifyImage } from "../store/reducers/game/actions";
+import { verifyImage, setUserImage } from "../store/reducers/game/actions";
 import getCoordsDistance from "../utils/getCoordsDistance";
 
 import Camera from "../components/Camera";
@@ -17,7 +17,6 @@ function getBase64(img, callback) {
 
 class StoryItem extends Component {
   state = {
-    image: null,
     userCoordinates: null
   };
 
@@ -46,7 +45,7 @@ class StoryItem extends Component {
 
     this.setState({
       userCoordinates: position.coords,
-      isNear: distance < 30,
+      isNear: distance <= 100,
       distance
     });
   };
@@ -54,12 +53,13 @@ class StoryItem extends Component {
   handleOnCameraCHange = ({ file }) => {
     const {
       verifyImage,
+      setUserImage,
       storyItem: { _id }
     } = this.props;
 
     getBase64(file, url => {
       verifyImage(_id, url);
-      this.setState({ image: url });
+      setUserImage(url, _id);
     });
   };
 
@@ -71,7 +71,9 @@ class StoryItem extends Component {
       isComplete,
       location,
       labels,
-      isLoading
+      isLoading,
+      image,
+      subtitle
     } = storyItem;
     const { userCoordinates, isNear, distance } = this.state;
     return (
@@ -114,23 +116,13 @@ class StoryItem extends Component {
               <Divider>{title}</Divider>
               {!isComplete ? (
                 <React.Fragment>
-                  <h4>
-                    Pro odemknutí kapitoly, pořiďte fotku, která obsahuje
-                    alespoň jeden z předmětů:
-                  </h4>
-                  {labels.map(label => (
-                    <p key={label}>{label}</p>
-                  ))}
-                  <h4>Na tomto místě</h4>
+                  <h4>{subtitle}</h4>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
                   <p>{description}</p>
                   <h4>Váš obrázek</h4>
-                  // TODO: Add to the store
-                  {this.state.image && (
-                    <img src={this.state.image} style={{ maxWidth: "300px" }} />
-                  )}
+                  {image && <img src={image} style={{ maxWidth: "300px" }} />}
                 </React.Fragment>
               )}
               <div
@@ -172,16 +164,7 @@ class StoryItem extends Component {
             </Col>
           </Row>
         </Layout>
-        <Row
-          type="flex"
-          justify="center"
-          style={{
-            position: "absolute",
-            bottom: 20,
-            left: 0,
-            right: 0
-          }}
-        >
+        <Row type="flex" justify="center" style={{}}>
           {!isComplete &&
             isNear &&
             !isLoading && (
@@ -213,5 +196,5 @@ export default connect(
     storyItem: selectStoryItem(props.match.params.storyItemId)(state),
     gameId: state.game.gameId
   }),
-  { verifyImage }
+  { verifyImage, setUserImage }
 )(StoryItem);

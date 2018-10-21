@@ -28,6 +28,14 @@ export default function game(state = null, action) {
       );
     }
 
+    case actions.SET_USER_IMAGE: {
+      return updateStoryItem(
+        action.storyItemId,
+        { image: action.image },
+        state
+      );
+    }
+
     case START(actions.VERIFY_IMAGE): {
       return updateStoryItem(action.storyItemId, { isLoading: true }, state);
     }

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getResults } from "../store/reducers/results/actions";
+import ResultCard from "../components/ResultCard";
+import { Row, Divider } from "antd";
 
 class Results extends Component {
   componentDidMount() {
@@ -10,7 +12,20 @@ class Results extends Component {
   render() {
     const { results } = this.props;
     return (
-      <div>{results && results.map(result => <img src={result.image} />)}</div>
+      <Row
+        type="flex"
+        justify="space-around"
+        align="middle"
+        style={{ paddingTop: "2rem" }}
+      >
+        <Divider>
+          <h1>Tvůj příběh</h1>
+        </Divider>
+        {results &&
+          results.map(result => (
+            <ResultCard image={result.image} storyItemId={result.storyItemId} />
+          ))}
+      </Row>
     );
   }
 }

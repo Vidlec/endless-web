@@ -17,7 +17,7 @@ class Home extends Component {
     const { match, getGame, game } = this.props;
     const gameId = match.params.gameId;
 
-    !game && getGame(gameId);
+    if (!game || game.gameId !== gameId) getGame(gameId);
   }
 
   handleOnFileChange = async ({ file, name }) => {
@@ -78,8 +78,14 @@ class Home extends Component {
               Restart hry
             </Button>
             <Link to={`/results`}>
-              <Button icon="trophy" type="primary">
-                Výsledky
+              <Button
+                icon="book"
+                type="primary"
+                shape="circle"
+                size="large"
+                block
+              >
+                Tvůj příběh
               </Button>
             </Link>
           </Row>

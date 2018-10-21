@@ -1,4 +1,3 @@
-import axios from "axios";
 import uuid from "uuid/v4";
 
 export const SUCCESS = type => `${type}_SUCCESS`;
@@ -8,6 +7,7 @@ export const START = type => `${type}_START`;
 export const GET_GAME = "GET_GAME";
 export const SET_USER_ID = "SET_USER_ID";
 export const VERIFY_IMAGE = "VERIFY_IMAGE";
+export const SET_USER_IMAGE = "SET_USER_IMAGE";
 
 export const getGame = gameId => ({ fetchJson }) => ({
   type: GET_GAME,
@@ -20,6 +20,12 @@ export const getGame = gameId => ({ fetchJson }) => ({
 export const setUserId = () => ({
   type: SET_USER_ID,
   userId: uuid()
+});
+
+export const setUserImage = (image, storyItemId) => ({
+  type: SET_USER_IMAGE,
+  storyItemId,
+  image
 });
 
 export const verifyImage = (storyItemId, imageBlob) => ({ fetchJson }) => ({
