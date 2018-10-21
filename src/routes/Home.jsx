@@ -32,7 +32,7 @@ class Home extends Component {
   };
 
   render() {
-    const { game, match, getGame, setUserId } = this.props;
+    const { game, match, getGame, setUserId, results } = this.props;
     const isAllDone = game && game.storyItems.every(item => item.isComplete);
 
     return (
@@ -75,7 +75,7 @@ class Home extends Component {
                         width: "250px"
                       }}
                     >
-                      Vytvořit tvůj příběh
+                      {results ? "Tvůj příběh" : "Vytvořit tvůj příběh"}
                     </Button>
                   </Link>
                 </Row>
@@ -108,6 +108,6 @@ class Home extends Component {
 }
 
 export default connect(
-  ({ game }) => ({ game }),
+  ({ game, results }) => ({ game, results }),
   { getGame, setUserId }
 )(Home);

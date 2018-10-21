@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getResults } from "../store/reducers/results/actions";
 import ResultCard from "../components/ResultCard";
-import { Row, Divider, Spin, Col } from "antd";
+import { Row, Divider, Spin, Col, Icon } from "antd";
 import logo from "../assets/logo.png";
 
 class Results extends Component {
@@ -71,10 +71,16 @@ class Results extends Component {
         <Divider>
           <h1>Tvůj příběh</h1>
         </Divider>
-        {results &&
-          results.map(result => (
-            <ResultCard image={result.image} storyItemId={result.storyItemId} />
-          ))}
+        {results && (
+          <React.Fragment>
+            {results.map(result => (
+              <ResultCard
+                image={result.image}
+                storyItemId={result.storyItemId}
+              />
+            ))}
+          </React.Fragment>
+        )}
       </Row>
     );
   }

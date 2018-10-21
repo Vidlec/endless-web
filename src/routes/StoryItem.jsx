@@ -64,7 +64,7 @@ class StoryItem extends Component {
   };
 
   render() {
-    const { storyItem, history, storyItems } = this.props;
+    const { storyItem, history, storyItems, results } = this.props;
     const {
       description,
       title,
@@ -110,31 +110,32 @@ class StoryItem extends Component {
           </Row>
         </Layout>
         {isComplete && image && <img style={{ width: "100%" }} src={image} />}
-        {isAllDone && (
-          <Row
-            type="flex"
-            justify="space-around"
-            align="middle"
-            style={{ paddingBottom: "1rem" }}
-          >
-            <Divider>Vše je splněno!</Divider>
-            <Link to={`/results`}>
-              <Button
-                type="primary"
-                size="large"
-                style={{
-                  backgroundColor: "#78e08f",
-                  borderColor: "#78e08f",
-                  fontSize: "20px",
-                  height: "50px",
-                  width: "250px"
-                }}
-              >
-                Vytvořit tvůj příběh
-              </Button>
-            </Link>
-          </Row>
-        )}
+        {isAllDone &&
+          !results && (
+            <Row
+              type="flex"
+              justify="space-around"
+              align="middle"
+              style={{ paddingBottom: "1rem" }}
+            >
+              <Divider>Vše je splněno!</Divider>
+              <Link to={`/results`}>
+                <Button
+                  type="primary"
+                  size="large"
+                  style={{
+                    backgroundColor: "#78e08f",
+                    borderColor: "#78e08f",
+                    fontSize: "20px",
+                    height: "50px",
+                    width: "250px"
+                  }}
+                >
+                  Vytvořit tvůj příběh
+                </Button>
+              </Link>
+            </Row>
+          )}
         <Layout style={{ padding: "1rem" }}>
           <Row>
             <Col style={{ textAlign: "center" }}>
@@ -218,7 +219,8 @@ export default connect(
   (state, props) => ({
     storyItem: selectStoryItem(props.match.params.storyItemId)(state),
     gameId: state.game.gameId,
-    storyItems: state.game.storyItems
+    storyItems: state.game.storyItems,
+    results: state.results
   }),
   { verifyImage, setUserImage }
 )(StoryItem);
